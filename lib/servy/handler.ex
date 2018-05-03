@@ -4,11 +4,18 @@ defmodule Servy.Handler do
 
     request
     |> parse
+    |> rewrite_path
     |> log
     |> route
     |> format_response
 
   end
+
+  def rewrite_path(%{ path: "/wildlife" } = conv) do
+    %{ conv | path: "/wildthings" }
+  end
+
+  def rewrite_path(conv), do: conv
 
   def log(conv), do: IO.inspect conv
 
