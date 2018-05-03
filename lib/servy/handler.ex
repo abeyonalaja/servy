@@ -73,7 +73,7 @@ GET /wildthings HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
-
+test
 """
 
 response = Servy.Handler.handle(request)
