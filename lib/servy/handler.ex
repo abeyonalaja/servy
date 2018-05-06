@@ -45,12 +45,16 @@ defmodule Servy.Handler do
     route(conv, conv.method, conv.path)
   end
 
-  def route(%{ method: "GET", path:"/wildthings" } = conv) do
+  def route(%{ method: "GET", path: "/wildthings" } = conv) do
     %{ conv | status: 200, resp_body: "Bears, Lions, Tigers" }
   end
 
   def route(%{ method: "GET", path:"/bears" } = conv) do
     %{ conv | status: 200, resp_body: "Teaddy, Smokey, Paddington" }
+  end
+
+  def route( %{method: "GET", path: "/about" } = conv) do
+    %{ conv | status : 200, resp_body: "conents of file" }
   end
 
   def route(%{ method: "GET", path:"/bears" <> id } = conv) do
@@ -97,6 +101,19 @@ IO.puts response
 
 request = """
 GET /bears/2 HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+    """
+
+response = Servy.Handler.handle(request)
+
+IO.puts response
+
+
+request = """
+GET /about HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
