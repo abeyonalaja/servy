@@ -31,6 +31,13 @@ defmodule Servy.Handler do
     %{conv | status: 200, resp_body: "Bear #{id}"}
   end
 
+  # name=Baloo&type=Brown
+  def route(%Conv{method: "POST", path: "/bears"} = conv) do
+    params = %{"name" => "Baloo", "type" => "Brown"}
+    %{conv | status: 201,
+      resp_body: "Create a #{params["type"]} bear named #{params["name"]} "}
+  end
+
   def route(%Conv{method: "GET", path: "/about"} = conv) do
     @pages_path
     |> Path.join("about.html")
@@ -70,31 +77,90 @@ GET /wildthings HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
-test
+
 """
 
 response = Servy.Handler.handle(request)
 
 IO.puts(response)
 
+
+# GET /bears
+
 request = """
-GET /bears/2 HTTP/1.1
+GET /bears HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
-"""
+
+    """
 
 response = Servy.Handler.handle(request)
-
 IO.puts(response)
+
+# GET /bigfoot
+
+request = """
+GET /bigfoot HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+    """
+response = Servy.Handler.handle(request)
+IO.puts(response)
+
+# GET /bears/1
+
+request = """
+GET /bears/1 HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+    """
+
+response = Servy.Handler.handle(request)
+IO.puts(response)
+
+# GET /wildlife
+
+request = """
+GET /wildlife HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+    """
+
+response = Servy.Handler.handle(request)
+IO.puts(response)
+
+# GET /about
 
 request = """
 GET /about HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
-"""
+
+    """
 
 response = Servy.Handler.handle(request)
+IO.puts(response)
 
+# POST /bears
+
+request = """
+POST /bears HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 21
+
+    name=Baloo&type=Brown
+    """
+
+response = Servy.Handler.handle(request)
 IO.puts(response)
