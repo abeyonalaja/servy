@@ -21,6 +21,6 @@ defmodule Servy.Wildthings do
   end
 
   def get_bear(id) when is_binary(id) do
-    id |> String.to_integer |> get_bear
+    id |> String.to_integer() |> get_bear
   end
 end

@@ -82,7 +82,7 @@ Accept: */*
 
 response = Servy.Handler.handle(request)
 
-IO.puts(response)
+# IO.puts(response)
 
 # GET /bears
 
@@ -108,7 +108,7 @@ Accept: */*
 """
 
 response = Servy.Handler.handle(request)
-IO.puts(response)
+# IO.puts(response)
 
 # GET /bears/1
 
@@ -134,7 +134,7 @@ Accept: */*
 """
 
 response = Servy.Handler.handle(request)
-IO.puts(response)
+# IO.puts(response)
 
 # GET /about
 
@@ -147,7 +147,7 @@ Accept: */*
 """
 
 response = Servy.Handler.handle(request)
-IO.puts(response)
+# IO.puts(response)
 
 # POST /bears
 
@@ -163,4 +163,4 @@ name=Baloo&type=Brown
 """
 
 response = Servy.Handler.handle(request)
-IO.puts(response)
+# IO.puts(response)
