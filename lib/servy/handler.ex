@@ -4,6 +4,7 @@ defmodule Servy.Handler do
   @pages_path Path.expand("../../pages", __DIR__)
 
   alias Servy.Conv
+  alias Servy.BearController
 
   import Servy.Plugins, only: [rewrite_path: 1, log: 1, track: 1]
   import Servy.Parser, only: [parse: 1]
@@ -24,18 +25,17 @@ defmodule Servy.Handler do
   end
 
   def route(%Conv{method: "GET", path: "/bears"} = conv) do
-    %{conv | status: 200, resp_body: "Teaddy, Smokey, Paddington"}
+    BearController.index(conv)
   end
 
-  def route(%Conv{method: "GET", path: "/bears" <> id} = conv) do
-    %{conv | status: 200, resp_body: "Bear #{id}"}
+  def route(%Conv{method: "GET", path: "/bears/" <> id} = conv) do
+    params = Map.put(conv.params, "id", id)
+    BearController.show(conv, params)
   end
 
   # name=Baloo&type=Brown
   def route(%Conv{method: "POST", path: "/bears"} = conv) do
-    params = %{"name" => "Baloo", "type" => "Brown"}
-    %{conv | status: 201,
-      resp_body: "Create a #{params["type"]} bear named #{params["name"]} "}
+    BearController.create(conv, conv.params)
   end
 
   def route(%Conv{method: "GET", path: "/about"} = conv) do
@@ -84,7 +84,6 @@ response = Servy.Handler.handle(request)
 
 IO.puts(response)
 
-
 # GET /bears
 
 request = """
@@ -93,7 +92,7 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
-    """
+"""
 
 response = Servy.Handler.handle(request)
 IO.puts(response)
@@ -106,7 +105,8 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
-    """
+"""
+
 response = Servy.Handler.handle(request)
 IO.puts(response)
 
@@ -118,7 +118,7 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
-    """
+"""
 
 response = Servy.Handler.handle(request)
 IO.puts(response)
@@ -131,7 +131,7 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
-    """
+"""
 
 response = Servy.Handler.handle(request)
 IO.puts(response)
@@ -144,7 +144,7 @@ Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
 
-    """
+"""
 
 response = Servy.Handler.handle(request)
 IO.puts(response)
@@ -159,8 +159,8 @@ Accept: */*
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 21
 
-    name=Baloo&type=Brown
-    """
+name=Baloo&type=Brown
+"""
 
 response = Servy.Handler.handle(request)
 IO.puts(response)

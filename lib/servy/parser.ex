@@ -9,7 +9,7 @@ defmodule Servy.Parser do
 
     headers = parse_headers(header_lines, %{})
 
-    params= parse_params(headers["Content-Type"],params_string)
+    params = parse_params(headers["Content-Type"], params_string)
 
     %Conv{
       method: method,
@@ -19,10 +19,10 @@ defmodule Servy.Parser do
     }
   end
 
-  def parse_params("application/x-www-form-urlencoded",params_string) do
+  def parse_params("application/x-www-form-urlencoded", params_string) do
     params_string
-    |> String.trim
-    |> URI.decode_query
+    |> String.trim()
+    |> URI.decode_query()
   end
 
   def parse_params(_, _), do: %{}
@@ -34,5 +34,4 @@ defmodule Servy.Parser do
   end
 
   def parse_headers([], headers), do: headers
-    
 end
